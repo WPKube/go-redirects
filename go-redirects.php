@@ -5,7 +5,7 @@ Plugin URI:  http://galengidman.com/plugins/go-redirects/
 Description: A simple redirect system for WordPress.
 Author:      Galen Gidman
 Author URI:  http://galengidman.com/
-Version:     1.0.1
+Version:     1.0.2
 */
 
 if ( ! defined( 'ABSPATH' ) ) {

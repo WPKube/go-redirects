@@ -19,4 +19,4 @@ function gr_permalinks_message() {
     . '</p></div>';
 
 }
-add_action( 'admin_notices', 'gr_request_permalinks_enabled' );
+add_action( 'admin_notices', 'gr_permalinks_message' );
