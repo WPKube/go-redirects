@@ -27,6 +27,7 @@ if ( is_admin() ) {
     define( 'CTMB_URL', plugin_dir_url( __FILE__ ) . 'includes/library/ct-meta-box' );
   }
 
+  require_once( plugin_dir_path( __FILE__ ) . 'includes/admin/notices.php' );
   require_once( plugin_dir_path( __FILE__ ) . 'includes/admin/redirect-fields.php' );
 
 }
