@@ -2,8 +2,8 @@
 Contributors: galengidman
 Tags: redirect, redirects, redirection, url, urls
 Requires at least: 3.6
-Tested up to: 4.0
-Stable tag: trunk
+Tested up to: 4.1.1
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -34,5 +34,4 @@ There is no setting to do so at this time. It is called Go Redirects after all. 
 
 == Changelog ==
 
-= 1.0 =
-* First release
+[Follow development on GitHub](http://github.com/galengidman/go-redirects)

@@ -4,7 +4,7 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-  exit; // Exit if accessed directly
+  exit;
 }
 
 // Make $post globally accessible

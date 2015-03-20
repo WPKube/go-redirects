@@ -5,19 +5,30 @@ Plugin URI:  http://galengidman.com/plugins/go-redirects/
 Description: A simple redirect system for WordPress.
 Author:      Galen Gidman
 Author URI:  http://galengidman.com/
-Version:     1.0
+Version:     1.0.1
 */
+
+if ( ! defined( 'ABSPATH' ) ) {
+  exit;
+}
 
 /**
  * Includes.
  */
-require_once 'includes/post-types.php';
+require_once( plugin_dir_path( __FILE__ ) . 'includes/post-types.php' );
 
 if ( is_admin() ) {
-  define( 'CTMB_URL', plugin_dir_url( __FILE__ ) . 'includes/library/ct-meta-box' );
 
-  require_once 'includes/admin/redirect-fields.php';
-  require_once 'includes/library/ct-meta-box/ct-meta-box.php';
+  if ( ! class_exists( 'CT_Meta_Box' ) ) {
+    require_once( plugin_dir_path( __FILE__ ) . 'includes/library/ct-meta-box/ct-meta-box.php' );
+  }
+
+  if ( ! defined( 'CTMB_URL' ) ) {
+    define( 'CTMB_URL', plugin_dir_url( __FILE__ ) . 'includes/library/ct-meta-box' );
+  }
+
+  require_once( plugin_dir_path( __FILE__ ) . 'includes/admin/redirect-fields.php' );
+
 }
 
 /**
