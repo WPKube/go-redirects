@@ -1,46 +1,26 @@
 <?php
 /**
- * Redirect Post Template
+ * Redirect Template
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-  exit;
-}
+if ( ! defined( 'ABSPATH' ) ) exit;
 
-// Make $post globally accessible
-global $post;
+// Store redirect info
+$id     = get_the_id();
+$url    = esc_url_raw( get_post_meta( $id, '_gr_redirect_url', true ) );
+$visits = (int) get_post_meta( $id, '_gr_redirect_visits', true );
 
-// Store the redirect URL
-$url = esc_url( get_post_meta( $post->ID, '_gr_redirect_url', true ) );
-
-// Store the visit count
-$visits = (int) get_post_meta( $post->ID, '_gr_redirect_visits', true );
-
-// Check to see if a visit count has already been stored
-if ( ! empty( $visits ) ) {
-
-  // Add an additional visit
-  update_post_meta( $post->ID, '_gr_redirect_visits', ++$visits );
-
+// Update redirect visits count
+if ( $visits < 1 ) {
+	add_post_meta( $id, '_gr_redirect_visits', 1, true );
 } else {
-
-  // Add the first visit
-  add_post_meta( $post->ID, '_gr_redirect_visits', 1, true );
-
+	update_post_meta( $id, '_gr_redirect_visits', ++$visits );
 }
 
-// Check to see if a redirect URL exists
+// Redirect or display error on fail
 if ( ! empty( $url ) ) {
-
-  // Redirect to the URL
-  wp_redirect( $url, '302' );
-
-  // And then exit
-  exit;
-
+	wp_redirect( $url, '302' );
+	exit;
 } else {
-
-  // Otherwise, display and error message and exit
-  wp_die( __( 'Redirect URL not found.', 'go-redirects' ), __( 'Error', 'go-redirects' ) );
-
+	wp_die( esc_html__( 'Redirect URL not found.', 'go-redirects' ), esc_html__( 'Error', 'go-redirects' ) );
 }
