@@ -5,7 +5,7 @@
  * Description: A simple redirect system for WordPress.
  * Author:      Galen Gidman
  * Author URI:  http://galengidman.com/
- * Version:     1.1.0
+ * Version:     1.1.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit;
@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 /**
  * Define constants.
  */
-if ( ! defined( 'GR_VERSION' ) ) define( 'GR_VERSION', '1.1.0' );
+if ( ! defined( 'GR_VERSION' ) ) define( 'GR_VERSION', '1.1.1' );
 if ( ! defined( 'GR_PATH' ) )    define( 'GR_PATH', plugin_dir_path( __FILE__ ) );
 if ( ! defined( 'GR_URL' ) )     define( 'GR_URL', esc_url( plugin_dir_url( __FILE__ ) ) );
 
