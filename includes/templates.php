@@ -3,12 +3,7 @@
  * Templates
  */
 
-/**
- * Exit if access directly.
- */
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
  * Load custom template for single gr_redirect posts.

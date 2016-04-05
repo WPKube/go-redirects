@@ -3,12 +3,7 @@
  * Post Types
  */
 
-/**
- * Exit if access directly.
- */
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
  * Register and configure the redirect post type.

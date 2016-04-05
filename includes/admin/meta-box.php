@@ -15,6 +15,4 @@ if ( ! class_exists( 'CT_Meta_Box' ) ) {
 /**
  * Define CT Meta Box URL if it's not already defined.
  */
-if ( ! defined( 'CTMB_URL' ) ) {
-	define( 'CTMB_URL', GR_URL . 'includes/vendor/ct-meta-box' );
-}
+if ( ! defined( 'CTMB_URL' ) ) define( 'CTMB_URL', GR_URL . 'includes/vendor/ct-meta-box' );
