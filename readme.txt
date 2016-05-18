@@ -1,17 +1,17 @@
-=== Go Redirects ===
-Contributors: galengidman
-Tags: redirect, redirects, redirection, url, urls
+=== Go Redirects URL Forwarder ===
+Contributors: GalenGidman
+Tags: redirect, redirects, redirection, url, urls, url mask, url forwarder, url forward, bitly, forward url, url masker, link forwarder, forward link, link mask, short url, affiliate, affiliate links, affiliate mask, affiliate link, affiliate url
 Requires at least: 3.9
-Tested up to: 4.4.2
-Stable tag: 1.1.1
+Tested up to: 4.5.2
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-A super-simple redirect system for WordPress.
+A super-simple URL forwarder for WordPress.
 
 == Description ==
 
-This plugin is a super-simple redirect system for WordPress. Setup URLs like `http://mysite.com/go/far-far-away/` to redirect to URLs like `http://example.com/` or `http://mysite.com/about/`. Even track the number of times each redirect has been used.
+Go Redirects is a URL forwarder plugin for WordPress that enables URLs like `http://mysite.com/go/far-far-away/` to forward to URLs like `http://someothersite.com/`. It's a great way to create clean-looking affiliate links or provide permement links for remote URLs that may change over time. It includes analytics for the number of times a URL has been forwarded.
 
 == Installation ==
 

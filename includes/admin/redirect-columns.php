@@ -14,8 +14,8 @@ function gr_redirect_columns( $columns ) {
 		'cb'     => '<input type="checkbox" />',
 		'title'  => esc_html__( 'Title', 'go-redirects' ),
 		'copy'   => '<span class="dashicons dashicons-clipboard"></span>',
-		'visits' => '<span class="dashicons dashicons-arrow-right-alt"></span>',
-		'date'   => esc_html__( 'Created', 'go-redirects' )
+		'url'    => '<span class="dashicons dashicons-admin-links"></span>',
+		'visits' => '<span class="dashicons dashicons-chart-bar"></span>'
 	);
 
 	return $columns;
@@ -33,6 +33,11 @@ function gr_manage_redirect_columns( $column, $post_id ) {
 		case 'copy' :
 			$url = esc_url_raw( get_the_permalink( $post_id ) );
 			printf( "<span class='button button-small gr-copy' data-zclip-text='$url'>%s</span>", esc_html__( 'Copy to Clipboard', 'go-redirects' ) );
+			break;
+
+		case 'url' :
+			$url = esc_url( get_post_meta( $post_id, '_gr_redirect_url', true ) );
+			echo $url;
 			break;
 
 		case 'visits' :
