@@ -113,7 +113,10 @@ class GR_Plugin {
 		switch ( $column ) {
 			case 'copy' :
 				$url = esc_attr( get_the_permalink( $post_id ) );
-				printf( "<span class='gr-copy button button-small' data-clipboard-text='{$url}'>%s</span>", esc_html__( 'Copy to Clipboard', 'go-redirects' ) );
+				$button_label = esc_html__( 'Copy to Clipboard', 'go-redirects' );
+				$button = sprintf( "<button type='button' class='gr-copy button button-small' data-clipboard-text='{$url}'>%s</button>", $button_label );
+				$check = '<span class="dashicons dashicons-yes" style="display: none"></span>';
+				echo $button . $check;
 				break;
 
 			case 'url' :
@@ -131,32 +134,36 @@ class GR_Plugin {
 
 		$screen = get_current_screen();
 
-		if ( $screen->id === 'gr_redirect' ) {
-			wp_enqueue_style(
-				'gr-admin',
-				esc_url( GR_URL . 'assets/css/gr-admin.css' ),
-				false,
-				GR_VERSION
-			);
+		if ( 'gr_redirect' !== $screen->post_type ) {
+			return;
 		}
 
-		if ( $screen->id === 'edit-gr_redirect' ) {
-			wp_enqueue_script(
-				'clipboard',
-				esc_url( GR_URL . 'assets/vendor/clipboard.min.js' ),
-				[],
-				GR_VERSION,
-				true
-			);
+		wp_enqueue_style(
+			'gr-admin',
+			esc_url( GR_URL . 'assets/css/gr-admin.css' ),
+			false,
+			GR_VERSION
+		);
 
-			wp_enqueue_script(
-				'gr-admin',
-				esc_url( GR_URL . 'assets/js/gr-admin.js' ),
-				[ 'clipboard' ],
-				GR_VERSION,
-				true
-			);
-		}
+		wp_enqueue_script(
+			'clipboard',
+			esc_url( GR_URL . 'assets/vendor/clipboard.min.js' ),
+			[ 'jquery' ],
+			GR_VERSION,
+			true
+		);
+
+		wp_enqueue_script(
+			'gr-admin',
+			esc_url( GR_URL . 'assets/js/gr-admin.js' ),
+			[ 'jquery', 'clipboard' ],
+			GR_VERSION,
+			true
+		);
+
+		wp_localize_script( 'gr-admin', 'grAdminL10n', [
+			'promptText' => esc_attr__( "Here's the URL:", 'go-redirects' ),
+		] );
 
 	}
 
