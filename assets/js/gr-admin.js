@@ -1,9 +1,4 @@
-jQuery(function($) {
-
-	$('body').on('copy', '.gr-copy', function(ev) {
-		ev.preventDefault();
-		ev.clipboardData.clearData();
-		ev.clipboardData.setData('text/plain', $(this).data('zclip-text'));
-	});
-
-});
+(function() {
+	var copyBtns = document.querySelectorAll('.gr-copy');
+	var clipboard = new Clipboard(copyBtns);
+})();

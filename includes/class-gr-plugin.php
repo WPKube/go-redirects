@@ -111,22 +111,18 @@ class GR_Plugin {
 	public function redirect_columns_content( $column, $post_id ) {
 
 		switch ( $column ) {
-
 			case 'copy' :
-				$url = esc_url_raw( get_the_permalink( $post_id ) );
-				printf( "<span class='button button-small gr-copy' data-zclip-text='$url'>%s</span>", esc_html__( 'Copy to Clipboard', 'go-redirects' ) );
+				$url = esc_attr( get_the_permalink( $post_id ) );
+				printf( "<span class='gr-copy button button-small' data-clipboard-text='{$url}'>%s</span>", esc_html__( 'Copy to Clipboard', 'go-redirects' ) );
 				break;
 
 			case 'url' :
-				$url = esc_url( get_post_meta( $post_id, '_gr_redirect_url', true ) );
-				echo $url;
+				echo esc_url( get_post_meta( $post_id, '_gr_redirect_url', true ) );
 				break;
 
 			case 'visits' :
-				$visits = (int) get_post_meta( $post_id, '_gr_redirect_visits', true );
-				echo "<strong>$visits</strong>";
+				echo absint( get_post_meta( $post_id, '_gr_redirect_visits', true ) );
 				break;
-
 		}
 
 	}
@@ -146,17 +142,19 @@ class GR_Plugin {
 
 		if ( $screen->id === 'edit-gr_redirect' ) {
 			wp_enqueue_script(
-				'jquery-zeroclipboard',
-				esc_url( GR_URL . 'assets/vendor/jquery.zeroclipboard/jquery.zeroclipboard.min.js' ),
-				[ 'jquery' ],
-				GR_VERSION
+				'clipboard',
+				esc_url( GR_URL . 'assets/vendor/clipboard.min.js' ),
+				[],
+				GR_VERSION,
+				true
 			);
 
 			wp_enqueue_script(
 				'gr-admin',
 				esc_url( GR_URL . 'assets/js/gr-admin.js' ),
-				[ 'jquery', 'jquery-zeroclipboard' ],
-				GR_VERSION
+				[ 'clipboard' ],
+				GR_VERSION,
+				true
 			);
 		}
 
