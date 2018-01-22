@@ -31,3 +31,7 @@ body.post-type-gr_redirect tr:not(:hover) .gr-copy {
 	line-height: 20px;
 	text-align: center;
 }
+
+body.post-type-gr_redirect input[name="_gr_redirect_visits"] {
+	pointer-events: none;
+}
