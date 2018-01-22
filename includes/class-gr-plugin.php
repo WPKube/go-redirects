@@ -102,8 +102,9 @@ class GR_Plugin {
 		return [
 			'cb'     => '<input type="checkbox" />',
 			'title'  => esc_html__( 'Title', 'go-redirects' ),
-			'copy'   => '<span class="dashicons dashicons-clipboard"></span>',
-			'visits' => '<span class="dashicons dashicons-chart-bar"></span>'
+			'url'    => esc_html__( 'URL', 'go-redirects' ),
+			'target' => esc_html__( 'Target', 'go-redirects' ),
+			'visits' => esc_html__( 'Visits', 'go-redirects' ),
 		];
 
 	}
@@ -111,20 +112,33 @@ class GR_Plugin {
 	public function redirect_columns_content( $column, $post_id ) {
 
 		switch ( $column ) {
-			case 'copy' :
-				$url = esc_attr( get_the_permalink( $post_id ) );
-				$button_label = esc_html__( 'Copy to Clipboard', 'go-redirects' );
-				$button = sprintf( "<button type='button' class='gr-copy button button-small' data-clipboard-text='{$url}'>%s</button>", $button_label );
-				$check = '<span class="dashicons dashicons-yes" style="display: none"></span>';
-				echo $button . $check;
+			case 'url' :
+
+				$url = esc_url( get_the_permalink( $post_id ) );
+
+				?>
+
+				<a href="<?php echo $url; ?>" target="_blank"><?php echo $url; ?></a>
+
+				<br>
+
+				<button type="button" class="gr-copy button button-small" data-clipboard-text="<?php echo $url; ?>">
+					<?php esc_html_e( 'Copy to Clipboard', 'go-redirects' ); ?>
+				</button>
+
+				<span class="dashicons dashicons-yes" style="display: none"></span>
+
+				<?php
+
 				break;
 
-			case 'url' :
-				echo esc_url( get_post_meta( $post_id, '_gr_redirect_url', true ) );
+			case 'target' :
+				$url = esc_url( get_post_meta( $post_id, '_gr_redirect_url', true ) );
+				echo "<a href='{$url}' target='_blank'>{$url}</a>";
 				break;
 
 			case 'visits' :
-				echo absint( get_post_meta( $post_id, '_gr_redirect_visits', true ) );
+				echo '<span class="gr-count">' . absint( get_post_meta( $post_id, '_gr_redirect_visits', true ) ) . '</span>';
 				break;
 		}
 
@@ -187,6 +201,10 @@ class GR_Plugin {
 	}
 
 	public function do_redirect() {
+
+		if ( ! is_singular( 'gr_redirect' ) ) {
+			return;
+		}
 
 		$id        = get_the_ID();
 		$url       = get_post_meta( $id, '_gr_redirect_url', true );
