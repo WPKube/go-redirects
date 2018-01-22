@@ -20,6 +20,10 @@ class GR_Plugin {
 
 		add_action( 'manage_gr_redirect_posts_custom_column', [ $this, 'redirect_columns_content' ], 10, 2 );
 
+		add_action( 'manage_edit-gr_redirect_sortable_columns', [ $this, 'add_sortable_visits_column' ] );
+
+		add_action( 'pre_get_posts', [ $this, 'sortable_visits_content' ] );
+
 		add_action( 'admin_enqueue_scripts', [ $this, 'admin_assets' ] );
 
 		add_action( 'admin_notices', [ $this, 'pretty_permalinks_notice' ] );
@@ -100,11 +104,11 @@ class GR_Plugin {
 	public function redirect_columns() {
 
 		return [
-			'cb'     => '<input type="checkbox" />',
-			'title'  => esc_html__( 'Title', 'go-redirects' ),
-			'url'    => esc_html__( 'URL', 'go-redirects' ),
-			'target' => esc_html__( 'Target', 'go-redirects' ),
-			'visits' => esc_html__( 'Visits', 'go-redirects' ),
+			'cb'        => '<input type="checkbox" />',
+			'title'     => esc_html__( 'Title', 'go-redirects' ),
+			'gr_url'    => esc_html__( 'URL', 'go-redirects' ),
+			'gr_target' => esc_html__( 'Target', 'go-redirects' ),
+			'gr_visits' => esc_html__( 'Visits', 'go-redirects' ),
 		];
 
 	}
@@ -112,7 +116,7 @@ class GR_Plugin {
 	public function redirect_columns_content( $column, $post_id ) {
 
 		switch ( $column ) {
-			case 'url' :
+			case 'gr_url' :
 
 				$url = esc_url( get_the_permalink( $post_id ) );
 
@@ -132,14 +136,48 @@ class GR_Plugin {
 
 				break;
 
-			case 'target' :
+			case 'gr_target' :
 				$url = esc_url( get_post_meta( $post_id, '_gr_redirect_url', true ) );
 				echo "<a href='{$url}' target='_blank'>{$url}</a>";
 				break;
 
-			case 'visits' :
-				echo '<span class="gr-count">' . absint( get_post_meta( $post_id, '_gr_redirect_visits', true ) ) . '</span>';
+			case 'gr_visits' :
+				echo '<span class="gr-count">' . number_format_i18n( absint( get_post_meta( $post_id, '_gr_redirect_visits', true ) ) ) . '</span>';
 				break;
+		}
+
+	}
+
+	public function add_sortable_visits_column( $columns ) {
+
+		$columns['gr_visits'] = 'gr_visits';
+
+		return $columns;
+
+	}
+
+	public function sortable_visits_content( $query ) {
+
+		if ( ! is_admin() ) {
+			return;
+		}
+
+		if ( $query->is_main_query() && 'gr_visits' === $query->get( 'orderby' ) ) {
+
+			$query->set( 'meta_query', [
+				'relation' => 'OR',
+				[
+					'key'     => '_gr_redirect_visits',
+					'compare' => 'EXISTS',
+				],
+				[
+					'key'     => '_gr_redirect_visits',
+					'compare' => 'NOT EXISTS',
+				],
+			] );
+
+			$query->set( 'orderby', 'meta_value_num date' );
+
 		}
 
 	}
