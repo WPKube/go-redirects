@@ -22,7 +22,7 @@ add_action( 'plugins_loaded', 'gr_load_plugin_textdomain' );
 
 if ( ! version_compare( PHP_VERSION, '5.4', '>=' ) ) {
 	add_action( 'admin_notices', 'gr_fail_php_version' );
-} elseif ( ! version_compare( get_bloginfo( 'version' ), '4.5', '>=' ) ) {
+} elseif ( ! version_compare( get_bloginfo( 'version' ), '4.7', '>=' ) ) {
 	add_action( 'admin_notices', 'gr_fail_wp_version' );
 } else {
 	include GR_PATH . 'includes/class-gr-plugin.php';

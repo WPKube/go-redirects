@@ -1,8 +1,8 @@
 === Go Redirects URL Forwarder ===
 Contributors: GalenGidman
 Tags: redirect, redirects, redirection, url, urls, url mask, url forwarder, url forward, bitly, forward url, url masker, link forwarder, forward link, link mask, short url, affiliate, affiliate links, affiliate mask, affiliate link, affiliate url
-Requires at least: 3.9
-Tested up to: 4.5.2
+Requires at least: 4.7
+Tested up to: 4.9.2
 Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
