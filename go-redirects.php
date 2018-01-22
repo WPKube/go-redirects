@@ -1,39 +1,53 @@
 <?php
 /**
  * Plugin Name: Go Redirects URL Forwarder
- * Plugin URI:  https://github.com/galengidman/go-redirects
  * Description: A super-simple URL forwarder WordPress.
+ * Version:     2.0.0
  * Author:      Galen Gidman
- * Author URI:  http://galengidman.com/
- * Version:     1.2.0
+ * Author URI:  https://galengidman.com/
+ * License:     GPL2+
  * Text Domain: go-redirects
- * Domain Path: /languages
- * License:     GPLv2 or later
- * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  */
 
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
-/**
- * Define constants.
- */
-if ( ! defined( 'GR_VERSION' ) ) define( 'GR_VERSION', '1.2.0' );
-if ( ! defined( 'GR_PATH' ) )    define( 'GR_PATH',    plugin_dir_path( __FILE__ ) );
-if ( ! defined( 'GR_URL' ) )     define( 'GR_URL',     esc_url( plugin_dir_url( __FILE__ ) ) );
+define( 'GR_VERSION', '2.0.0' );
+define( 'GR_FILE',    __FILE__ );
+define( 'GR_PATH',    plugin_dir_path( GR_FILE ) );
+define( 'GR_URL',     plugin_dir_url( GR_FILE ) );
 
-/**
- * Includes.
- */
-require_once GR_PATH . 'includes/post-types.php';
-require_once GR_PATH . 'includes/templates.php';
+add_action( 'plugins_loaded', 'gr_load_plugin_textdomain' );
 
-/**
- * Admin includes.
- */
-if ( is_admin() ) {
-	require_once GR_PATH . 'includes/admin/assets.php';
-	require_once GR_PATH . 'includes/admin/meta-box.php';
-	require_once GR_PATH . 'includes/admin/notices.php';
-	require_once GR_PATH . 'includes/admin/redirect-columns.php';
-	require_once GR_PATH . 'includes/admin/redirect-fields.php';
+if ( ! version_compare( PHP_VERSION, '5.4', '>=' ) ) {
+	add_action( 'admin_notices', 'gr_fail_php_version' );
+} elseif ( ! version_compare( get_bloginfo( 'version' ), '4.5', '>=' ) ) {
+	add_action( 'admin_notices', 'gr_fail_wp_version' );
+} else {
+	include GR_PATH . 'includes/class-gr-plugin.php';
+}
+
+function gr_load_plugin_textdomain() {
+
+	load_plugin_textdomain( 'go-redirects' );
+
+}
+
+function gr_fail_php_version() {
+
+	$message = sprintf( esc_html__( 'Go Redirects requires PHP version %s+, plugin is currently NOT ACTIVE.', 'go-redirects' ), '5.4' );
+	$message = sprintf( '<div class="error">%s</div>', wpautop( $message ) );
+
+	echo wp_kses_post( $message );
+
+}
+
+function gr_fail_wp_version() {
+
+	$message = sprintf( esc_html__( 'Go Redirects requires WordPress version %s+, plugin is currently NOT ACTIVE.', 'go-redirects' ), '4.5' );
+	$message = sprintf( '<div class="error">%s</div>', wpautop( $message ) );
+
+	echo wp_kses_post( $message );
+
 }
