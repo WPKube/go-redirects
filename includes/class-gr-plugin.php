@@ -9,7 +9,6 @@ if ( ! class_exists( 'GR_Plugin' ) ) :
 class GR_Plugin {
 
 	public function __construct() {
-
 		add_action( 'plugins_loaded',  [ $this, 'include_vendor' ] );
 
 		add_action( 'init', [ $this, 'register_post_type' ] );
@@ -29,17 +28,13 @@ class GR_Plugin {
 		add_action( 'admin_notices', [ $this, 'pretty_permalinks_notice' ] );
 
 		add_action( 'template_redirect', [ $this, 'do_redirect' ] );
-
 	}
 
 	public function include_vendor() {
-
 		include GR_PATH . 'includes/vendor/cmb2/init.php';
-
 	}
 
 	public function register_post_type() {
-
 		$labels = [
 			'name'               => esc_html__( 'Redirects',                    'go-redirects' ),
 			'singular_name'      => esc_html__( 'Redirect',                     'go-redirects' ),
@@ -66,11 +61,9 @@ class GR_Plugin {
 		];
 
 		register_post_type( 'gr_redirect', $args );
-
 	}
 
 	public function meta_box() {
-
 		$prefix = '_gr_';
 
 		$cmb = new_cmb2_box( [
@@ -98,11 +91,9 @@ class GR_Plugin {
 				'value'    => isset( $_GET['post'] ) ? (int) get_post_meta( $_GET['post'], '_gr_redirect_visits', true ) : 0,
 			],
 		] );
-
 	}
 
 	public function redirect_columns() {
-
 		return [
 			'cb'        => '<input type="checkbox" />',
 			'title'     => esc_html__( 'Title', 'go-redirects' ),
@@ -110,11 +101,9 @@ class GR_Plugin {
 			'gr_target' => esc_html__( 'Target', 'go-redirects' ),
 			'gr_visits' => esc_html__( 'Visits', 'go-redirects' ),
 		];
-
 	}
 
 	public function redirect_columns_content( $column, $post_id ) {
-
 		switch ( $column ) {
 			case 'gr_url' :
 
@@ -145,25 +134,19 @@ class GR_Plugin {
 				echo '<span class="gr-count">' . number_format_i18n( absint( get_post_meta( $post_id, '_gr_redirect_visits', true ) ) ) . '</span>';
 				break;
 		}
-
 	}
 
 	public function add_sortable_visits_column( $columns ) {
-
 		$columns['gr_visits'] = 'gr_visits';
-
 		return $columns;
-
 	}
 
 	public function sortable_visits_content( $query ) {
-
 		if ( ! is_admin() ) {
 			return;
 		}
 
 		if ( $query->is_main_query() && 'gr_visits' === $query->get( 'orderby' ) ) {
-
 			$query->set( 'meta_query', [
 				'relation' => 'OR',
 				[
@@ -177,13 +160,10 @@ class GR_Plugin {
 			] );
 
 			$query->set( 'orderby', 'meta_value_num date' );
-
 		}
-
 	}
 
 	public function admin_assets() {
-
 		$screen = get_current_screen();
 
 		if ( 'gr_redirect' !== $screen->post_type ) {
@@ -216,11 +196,9 @@ class GR_Plugin {
 		wp_localize_script( 'gr-admin', 'grAdminL10n', [
 			'promptText' => esc_attr__( "Here's the URL:", 'go-redirects' ),
 		] );
-
 	}
 
 	public function pretty_permalinks_notice() {
-
 		if ( get_option( 'permalink_structure' ) ) {
 			return;
 		}
@@ -235,18 +213,16 @@ class GR_Plugin {
 		$message = sprintf( '<div class="error">%s</div>', wpautop( $message ) );
 
 		echo wp_kses_post( $message );
-
 	}
 
 	public function do_redirect() {
-
 		if ( ! is_singular( 'gr_redirect' ) ) {
 			return;
 		}
 
-		$id        = get_the_ID();
-		$url       = get_post_meta( $id, '_gr_redirect_url', true );
-		$visits    = absint( get_post_meta( $id, '_gr_redirect_visits', true ) );
+		$id     = get_the_ID();
+		$url    = get_post_meta( $id, '_gr_redirect_url', true );
+		$visits = absint( get_post_meta( $id, '_gr_redirect_visits', true ) );
 
 		update_post_meta( $id, '_gr_redirect_visits', $visits < 1 ? 1 : ++$visits );
 
@@ -256,7 +232,6 @@ class GR_Plugin {
 		} else {
 			wp_die( esc_html__( 'Redirect URL not found.', 'go-redirects' ) );
 		}
-
 	}
 
 }

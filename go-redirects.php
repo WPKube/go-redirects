@@ -29,25 +29,19 @@ if ( ! version_compare( PHP_VERSION, '5.4', '>=' ) ) {
 }
 
 function gr_load_plugin_textdomain() {
-
 	load_plugin_textdomain( 'go-redirects' );
-
 }
 
 function gr_fail_php_version() {
-
 	$message = sprintf( esc_html__( 'Go Redirects requires PHP version %s+, plugin is currently NOT ACTIVE.', 'go-redirects' ), '5.4' );
 	$message = sprintf( '<div class="error">%s</div>', wpautop( $message ) );
 
 	echo wp_kses_post( $message );
-
 }
 
 function gr_fail_wp_version() {
-
 	$message = sprintf( esc_html__( 'Go Redirects requires WordPress version %s+, plugin is currently NOT ACTIVE.', 'go-redirects' ), '4.5' );
 	$message = sprintf( '<div class="error">%s</div>', wpautop( $message ) );
 
 	echo wp_kses_post( $message );
-
 }
