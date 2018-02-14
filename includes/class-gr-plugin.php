@@ -12,19 +12,14 @@ class GR_Plugin {
 		add_action( 'plugins_loaded',  [ $this, 'include_vendor' ] );
 
 		add_action( 'init', [ $this, 'register_post_type' ] );
-
 		add_action( 'cmb2_admin_init', [ $this, 'meta_box' ] );
 
 		add_filter( 'manage_gr_redirect_posts_columns', [ $this, 'redirect_columns' ] );
-
 		add_action( 'manage_gr_redirect_posts_custom_column', [ $this, 'redirect_columns_content' ], 10, 2 );
-
 		add_action( 'manage_edit-gr_redirect_sortable_columns', [ $this, 'add_sortable_visits_column' ] );
-
 		add_action( 'pre_get_posts', [ $this, 'sortable_visits_content' ] );
 
 		add_action( 'admin_enqueue_scripts', [ $this, 'admin_assets' ] );
-
 		add_action( 'admin_notices', [ $this, 'pretty_permalinks_notice' ] );
 
 		add_action( 'template_redirect', [ $this, 'do_redirect' ] );
@@ -106,11 +101,8 @@ class GR_Plugin {
 	public function redirect_columns_content( $column, $post_id ) {
 		switch ( $column ) {
 			case 'gr_url' :
-
 				$url = esc_url( get_the_permalink( $post_id ) );
-
 				?>
-
 				<a href="<?php echo $url; ?>" target="_blank"><?php echo $url; ?></a>
 
 				<br>
@@ -120,9 +112,7 @@ class GR_Plugin {
 				</button>
 
 				<span class="dashicons dashicons-yes" style="display: none"></span>
-
 				<?php
-
 				break;
 
 			case 'gr_target' :
