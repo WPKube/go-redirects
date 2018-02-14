@@ -227,7 +227,7 @@ class GR_Plugin {
 		update_post_meta( $id, '_gr_redirect_visits', $visits < 1 ? 1 : ++$visits );
 
 		if ( $url ) {
-			wp_redirect( $url, '302' );
+			esc_url_raw( wp_redirect( $url, '302' ) );
 			exit;
 		} else {
 			wp_die( esc_html__( 'Redirect URL not found.', 'go-redirects' ) );
