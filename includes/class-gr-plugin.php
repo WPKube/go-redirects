@@ -65,6 +65,7 @@ class GR_Plugin {
 			'id'           => $prefix . 'metabox',
 			'title'        => esc_html__( 'Redirect Settings', 'go-redirects' ),
 			'object_types' => [ 'gr_redirect' ],
+			'priority'     => 'high',
 		] );
 
 		$cmb->add_field( [
