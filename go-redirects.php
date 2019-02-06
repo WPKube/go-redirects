@@ -26,6 +26,7 @@ if ( ! version_compare( PHP_VERSION, '5.4', '>=' ) ) {
 	add_action( 'admin_notices', 'gr_fail_wp_version' );
 } else {
 	include GR_PATH . 'includes/class-gr-plugin.php';
+	register_deactivation_hook(__FILE__, [$gr_plugin, 'deactivate']);
 }
 
 function gr_load_plugin_textdomain() {
