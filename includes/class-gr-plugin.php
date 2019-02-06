@@ -30,6 +30,8 @@ class GR_Plugin {
 
 		add_action( 'template_redirect', [ $this, 'do_redirect' ] );
 
+		add_action( 'wp_loaded', [ $this, 'refresh_permalinks'] );
+
 	}
 
 	public function include_vendor() {
@@ -259,8 +261,28 @@ class GR_Plugin {
 
 	}
 
+	/**
+	 * Refresh permalinks if is admin and no record of _gr_permalinks_refreshed
+	 */
+	public function refresh_permalinks() {
+		if (is_admin() && !get_option('_gr_permalinks_refreshed', false)) {
+
+			flush_rewrite_rules();
+			update_option('_gr_permalinks_refreshed', true);
+		}
+	}
+
+	/**
+	 * Plugin Deactivation Hook Function
+	 */
+	public function deactivate() {
+
+		delete_option('_gr_permalinks_refreshed');
+
+	}
+
 }
 
 endif;
 
-new GR_Plugin();
+$gr_plugin = new GR_Plugin();
